@@ -168,10 +168,10 @@ const DashboardScreen = () => {
                     </div>
                 </div>
             </Container>
-            <div className={styles.sliderOFprojectinfo}>
+            {/* <div className={styles.sliderOFprojectinfo}>
                 <div className={styles.slider}>
                             <div className={styles.projectName}>
-                                <button><CloseSliderIcon/></button>
+                                <button ><CloseSliderIcon/></button>
                                 <h1>Project Name</h1>
                             </div>
                             <div className={styles.StatusOFproject}>
@@ -194,7 +194,7 @@ const DashboardScreen = () => {
                                 
                             </div>
                 </div>
-            </div>
+            </div> */}
         </div>
     )
 }
