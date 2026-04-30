@@ -187,7 +187,12 @@ const HomeScreen = () => {
               </Card>
             </section>
           )}
-          <section className={styles.section2}>
+          <section
+  className={styles.section2}
+  style={{
+    width: isTablet ? "100%" : undefined,
+  }}
+>
             <Card>
               <div className={styles.postBox}>
                 <img src="/avatar.png" />
