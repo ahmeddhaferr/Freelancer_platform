@@ -1,12 +1,14 @@
 import { Link, NavLink } from "react-router-dom";
 import styles from './Header.module.css';
 import { useState } from "react";
+import { useMediaQuery } from "react-responsive";
 import SearchIcon from "../../CustomIcons/SearchIcon";
 import BellIcon from "../../CustomIcons/BellIcon";
 import Container from "../Container/container";
 const Header = () => {
     const [isOpenNotification, setIsOpenNotification] = useState(false)
     const [newNotification, setNewNotification] = useState(true)
+    const isMobile = useMediaQuery({ query: '(max-width: 880px)' })
     const todayNotifications = [
         {
             img: './avatar.png',
@@ -58,7 +60,7 @@ const Header = () => {
                         <NavLink to="/dashboard">Dashboard</NavLink>
                         <NavLink to="/setting">Settings</NavLink>
                     </nav>
-                    <div className={styles["nav-bar"]}>
+                    {isMobile ? (""):(<div className={styles["nav-bar"]}>
                         <div className={styles.search}>
                             <SearchIcon />
                             <input type="text" placeholder="Search..." />
@@ -98,7 +100,7 @@ const Header = () => {
                                 </div>
                             )}
                         </button>
-                    </div>
+                    </div>)}
                 </div>
             </Container>
         </div>
