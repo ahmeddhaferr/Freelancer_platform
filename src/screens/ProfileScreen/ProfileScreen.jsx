@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Card from '../../components/Card/card';
 import DonutChart from '../../components/charts/DonutChart';
 import Container from '../../components/Container/container';
@@ -11,60 +12,44 @@ import TaskDoneIcon from '../../CustomIcons/TaskDoneIcon';
 import styles from './ProfileScreen.module.css'
 import EmptyStarIcon from '../../CustomIcons/EmptyStarIcon';
 import Star2Icon from '../../CustomIcons/Star2Icon';
+import { CHART_DATA, POSTS, PROJECTS, RATING } from './profileData';
+
+const buildPostMap = (initialValue) =>
+  POSTS.reduce((acc, post) => ({ ...acc, [post.id]: initialValue }), {});
+
 const ProfileScreen = () => {
+  
+  const [likedPosts, setLikedPosts] = useState({});
+  const [likeCounts, setLikeCounts] = useState(buildPostMap(0));
+  const [openComments, setOpenComments] = useState({});
+  const [commentInputs, setCommentInputs] = useState({});
+  const [commentsByPost, setCommentsByPost] = useState(buildPostMap([]));
 
+    const toggleLike = (postId) => {
+      setLikedPosts((prev) => {
+        const isLiked = !prev[postId];
+        setLikeCounts((current) => ({
+          ...current,
+          [postId]: Math.max(0, (current[postId] || 0) + (isLiked ? 1 : -1)),
+        }));
+        return { ...prev, [postId]: isLiked };
+      });
+    };
 
-  const chartData = [
-    { value: 25, color: "#FFD700" }, 
-    { value: 25, color: "#32CD32" }, 
-    { value: 25, color: "#d3d3d3" }, 
-  ];
-    const posts = [
-        {
-          id: 1,
-          title: "Looking for Full-Sack Developer with experience +2 years",
-          desc: "to build a responsive, user-focused web application. Must be skilled in both front-end and back-end development",
-          duration: "4 Months",
-          image: "/post.png",
-          price: 50,
-          client: {
-            name: "Client Name",
-            createdAt: "Posted 2 hours ago  ",
-          },
-        },
-        {
-          id: 2,
-          title: "Looking for Full-Sack Developer with experience +2 years",
-          desc: "to build a responsive, user-focused web application. Must be skilled in both front-end and back-end development",
-          duration: "4 Months",
-          price: 50,
-          client: {
-            name: "Client Name",
-            createdAt: "Posted 2 hours ago  ",
-          },
-        },
-      ];
-      
-const projects = [
-    {
-      id: 1,
-      title: "Project Name One",
-      createdAt: "22 Jan 2024 - 11 May  2024.",
-      desc: "Developed a task management web application designed to help users organize, prioritize, and track their daily tasks efficiently. ",
-    },
-    {
-      id: 2,
-      title: "Project Name Two",
-      createdAt: "22 Jan 2024 - 11 May  2024.",
-      desc: "Developed a task management web application designed to help users organize, prioritize, and track their daily tasks efficiently. ",
-    },
-  ];
-  const rating = {
-    starRate: '4.0',
-    highRate: 82,
-    midRate: 12,
-    lowRate: 6
-    }
+    const toggleComments = (postId) => {
+      setOpenComments((prev) => ({ ...prev, [postId]: !prev[postId] }));
+    };
+
+    const addComment = (postId) => {
+      const value = (commentInputs[postId] || "").trim();
+      if (!value) return;
+      setCommentsByPost((prev) => ({
+        ...prev,
+        [postId]: [...(prev[postId] || []), value],
+      }));
+      setCommentInputs((prev) => ({ ...prev, [postId]: "" }));
+    };
+
     return (
         <div className={styles.ProfileScreen}>
             <Container>
@@ -104,7 +89,7 @@ const projects = [
                                     </div>
                                 </div>
 
-                                {projects?.map((p) => (
+                                {PROJECTS.map((p) => (
                                 <div className={styles.projectItem} key={p.id}>
                                     <div className={styles.guid}>
                                         <div className={styles.dot}></div>
@@ -126,7 +111,7 @@ const projects = [
                                         <EditIcon />
                                     </div>
                                 </div>
-                                {posts?.map((post) => (
+                                {POSTS.map((post) => (
                                 <Card marginTop={16} key={post.id}>
                                     <div className={styles.postItem}>
                                     <div className={styles.postHead}>
@@ -172,13 +157,42 @@ const projects = [
                                     )}
 
                                     <div className={styles.postFooter}>
-                                        <div className={styles.footerItem}>
-                                        <HeartIcon /> <span>like</span>
-                                        </div>
-                                        <div className={styles.footerItem}>
-                                        <CommentsIcon /> <span>comment</span>
-                                        </div>
+                                        <button
+                                          className={`${styles.footerItem} ${styles.actionBtn} ${likedPosts[post.id] ? styles.activeAction : ""}`}
+                                          onClick={() => toggleLike(post.id)}
+                                        >
+                                          <HeartIcon /> <span>like ({likeCounts[post.id] || 0})</span>
+                                        </button>
+                                        <button
+                                          className={`${styles.footerItem} ${styles.actionBtn}`}
+                                          onClick={() => toggleComments(post.id)}
+                                        >
+                                          <CommentsIcon /> <span>comment ({(commentsByPost[post.id] || []).length})</span>
+                                        </button>
                                     </div>
+                                    {openComments[post.id] ? (
+                                      <div className={styles.commentBox}>
+                                        <div className={styles.commentInputRow}>
+                                          <input
+                                            type="text"
+                                            placeholder="Write a comment..."
+                                            value={commentInputs[post.id] || ""}
+                                            onChange={(e) =>
+                                              setCommentInputs((prev) => ({
+                                                ...prev,
+                                                [post.id]: e.target.value,
+                                              }))
+                                            }
+                                          />
+                                          <button onClick={() => addComment(post.id)}>Send</button>
+                                        </div>
+                                        {(commentsByPost[post.id] || []).map((comment, index) => (
+                                          <p key={`${post.id}-${index}`} className={styles.commentItem}>
+                                            {comment}
+                                          </p>
+                                        ))}
+                                      </div>
+                                    ) : null}
                                     </div>
                                 </Card>
                                 ))}
@@ -190,7 +204,7 @@ const projects = [
                         <Card>
                             <h3 className={styles.ActivityHeader}>Your Activity</h3>
                             <div className={styles.Chart}>
-                                <DonutChart data={chartData} barSize={18} size={200}>
+                                <DonutChart data={CHART_DATA} barSize={18} size={200}>
                                     <div>Projects</div>
                                     <div>Progress</div>
                                 </DonutChart>
@@ -231,36 +245,36 @@ const projects = [
                             <h3 className={styles.rateTitle}>Rating</h3>
                             <p className={styles.rateSubtitle}>Average Rating</p>
                             <div className={styles.ratingStars}>
-                                <b>{rating.starRate}</b>
+                                <b>{RATING.starRate}</b>
                                 <div>
-                                    {+rating.starRate >= 1? <Star2Icon />: <EmptyStarIcon /> }
-                                    {+rating.starRate >= 2? <Star2Icon />: <EmptyStarIcon /> }
-                                    {+rating.starRate >= 3? <Star2Icon />: <EmptyStarIcon /> }
-                                    {+rating.starRate >= 4? <Star2Icon />: <EmptyStarIcon /> }
-                                    {+rating.starRate >= 5? <Star2Icon />: <EmptyStarIcon /> }
+                                    {+RATING.starRate >= 1? <Star2Icon />: <EmptyStarIcon /> }
+                                    {+RATING.starRate >= 2? <Star2Icon />: <EmptyStarIcon /> }
+                                    {+RATING.starRate >= 3? <Star2Icon />: <EmptyStarIcon /> }
+                                    {+RATING.starRate >= 4? <Star2Icon />: <EmptyStarIcon /> }
+                                    {+RATING.starRate >= 5? <Star2Icon />: <EmptyStarIcon /> }
                                 </div>
                             </div>
                             <div className={styles.ratingBar}>
                                 <div className={styles.barItem}>
                                     <b>High rate</b>
                                     <div className={styles.bar}>
-                                        <div style={{width: `${rating.highRate}%`, backgroundColor: '#4DB251'}}></div>
+                                        <div style={{width: `${RATING.highRate}%`, backgroundColor: '#4DB251'}}></div>
                                     </div>
-                                    <p>{rating.highRate}%</p>
+                                    <p>{RATING.highRate}%</p>
                                 </div>
                                 <div className={styles.barItem}>
                                     <b>Mid rate</b>
                                     <div className={styles.bar}>
-                                        <div style={{width: `${rating.midRate}%`, backgroundColor: '#FFBF00'}}></div>
+                                        <div style={{width: `${RATING.midRate}%`, backgroundColor: '#FFBF00'}}></div>
                                     </div>
-                                    <p>{rating.midRate}%</p>
+                                    <p>{RATING.midRate}%</p>
                                 </div>
                                 <div className={styles.barItem}>
                                     <b>low rate</b>
                                     <div className={styles.bar}>
-                                        <div style={{width: `${rating.lowRate}%`, backgroundColor: '#E4636F'}}></div>
+                                        <div style={{width: `${RATING.lowRate}%`, backgroundColor: '#E4636F'}}></div>
                                     </div>
-                                    <p>{rating.lowRate}%</p>
+                                    <p>{RATING.lowRate}%</p>
                                 </div>
                             </div>
                         </Card>

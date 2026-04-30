@@ -10,8 +10,8 @@ const Header = ({ isHomeSidebarOpen, setIsHomeSidebarOpen }) => {
     const [newNotification, setNewNotification] = useState(true)
     const location = useLocation();
     const isMobile = useMediaQuery({ query: '(max-width: 880px)' })
-    const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1100px)' })
-    const showHomeSidebarButton = ["/", "/profile", "/dashboard"].includes(location.pathname) && isTabletOrMobile;
+    const isTabletOrMobile = useMediaQuery({ query: '(max-width: 880px)' })
+    const showHomeSidebarButton = ["/", "/profile", "/dashboard", "/setting"].includes(location.pathname) && isTabletOrMobile;
     const todayNotifications = [
         {
             img: './avatar.png',
@@ -79,6 +79,30 @@ const Header = ({ isHomeSidebarOpen, setIsHomeSidebarOpen }) => {
                         <Link to="/setting" onClick={() => setIsHomeSidebarOpen(false)}>Settings</Link>
                         <Link to="/profile" onClick={() => setIsHomeSidebarOpen(false)}>Edit Profile</Link>
                     </nav>
+                    <div className={styles.mobileSidebarNotifications}>
+                        <h4>Notifications</h4>
+                        <p className={styles.mobileSidebarSubtitle}>You have updates from today and this week.</p>
+
+                        <p className={styles.mobileSidebarGroupTitle}>Today</p>
+                        {todayNotifications.map((today, index) => (
+                            <div key={`today-${today.name}-${index}`} className={styles.mobileNotificationItem}>
+                                <img src={today.img} alt="" />
+                                <p>
+                                    <span>{today.name}</span> {today.type} <small>{today.time}</small>
+                                </p>
+                            </div>
+                        ))}
+
+                        <p className={styles.mobileSidebarGroupTitle}>This week</p>
+                        {thisWeekNotifications.map((item, index) => (
+                            <div key={`week-${item.name}-${index}`} className={styles.mobileNotificationItem}>
+                                <img src={item.img} alt="" />
+                                <p>
+                                    <span>{item.name}</span> {item.type} <small>{item.time}</small>
+                                </p>
+                            </div>
+                        ))}
+                    </div>
                 </aside>
             ) : null}
             <Container>

@@ -15,10 +15,9 @@ const customStyles = {
   control: (provided) => ({
     ...provided,
     width: 100,
-    border: '1px solid #e0e0e0',
+    border: 'none',
     borderRadius: '8px 0 0 8px',
     padding: '0px 8px',
-    border: 'none', 
     boxShadow: 'none',
   }),
   option: (provided) => ({

@@ -96,6 +96,7 @@
     padding: 16px;
     z-index: 100;
     transition: right 0.3s ease;
+    overflow-y: auto;
 }
 
 .header .mobileSidebar.open {
@@ -137,6 +138,62 @@
     border: 1px solid #e7eff2;
     border-radius: 12px;
     padding: 10px 12px;
+}
+
+.header .mobileSidebarNotifications {
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px solid #dbe6ea;
+}
+
+.header .mobileSidebarNotifications h4 {
+    font-size: 18px;
+    margin-bottom: 4px;
+}
+
+.header .mobileSidebarSubtitle {
+    font-size: 13px;
+    color: #7c8a90;
+    margin-bottom: 12px;
+}
+
+.header .mobileSidebarGroupTitle {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 10px 0 8px;
+    color: #36454f;
+}
+
+.header .mobileNotificationItem {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #fff;
+    border: 1px solid #e8eff2;
+    border-radius: 10px;
+    padding: 8px;
+    margin-bottom: 8px;
+}
+
+.header .mobileNotificationItem img {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+}
+
+.header .mobileNotificationItem p {
+    font-size: 12px;
+    color: #667085;
+    line-height: 1.35;
+}
+
+.header .mobileNotificationItem p span {
+    color: #3C97AF;
+    font-weight: 600;
+}
+
+.header .mobileNotificationItem p small {
+    color: #8e9ca3;
 }
 
 .header .nav-bar .search input {
@@ -221,7 +278,7 @@
     height: 50px;
 }
 
-@media (max-width: 450px) {
+@media (max-width: 880px) {
     .header .nav-menu {
         display: none;
     }

@@ -120,10 +120,44 @@ const formerCoworkers = [
 const HomeScreen = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [recentProjectOpened, setRecentProjectOpened] = useState(-1);
+  const [likedPosts, setLikedPosts] = useState({});
+  const [likeCounts, setLikeCounts] = useState(
+    posts.reduce((acc, post) => ({ ...acc, [post.id]: 0 }), {})
+  );
+  const [openComments, setOpenComments] = useState({});
+  const [commentInputs, setCommentInputs] = useState({});
+  const [commentsByPost, setCommentsByPost] = useState(
+    posts.reduce((acc, post) => ({ ...acc, [post.id]: [] }), {})
+  );
   const isMobile = useMediaQuery({ query: "(max-width: 1100px)" });
   const isTablet = useMediaQuery({ query: "(max-width: 900px)" });
   const handleNewProject = () => {
     setIsPopupOpen(true);
+  };
+
+  const toggleLike = (postId) => {
+    setLikedPosts((prev) => {
+      const isLiked = !prev[postId];
+      setLikeCounts((current) => ({
+        ...current,
+        [postId]: Math.max(0, (current[postId] || 0) + (isLiked ? 1 : 0)),
+      }));
+      return { ...prev, [postId]: isLiked };
+    });
+  };
+
+  const toggleComments = (postId) => {
+    setOpenComments((prev) => ({ ...prev, [postId]: !prev[postId] }));
+  };
+
+  const addComment = (postId) => {
+    const value = (commentInputs[postId] || "").trim();
+    if (!value) return;
+    setCommentsByPost((prev) => ({
+      ...prev,
+      [postId]: [...(prev[postId] || []), value],
+    }));
+    setCommentInputs((prev) => ({ ...prev, [postId]: "" }));
   };
   return (
     <div style={styles.homeScreen}>
@@ -252,13 +286,45 @@ const HomeScreen = () => {
                   )}
 
                   <div className={styles.postFooter}>
-                    <div className={styles.footerItem}>
-                      <HeartIcon /> <span>like</span>
-                    </div>
-                    <div className={styles.footerItem}>
-                      <CommentsIcon /> <span>comment</span>
-                    </div>
+                    <button
+                      className={`${styles.footerItem} ${styles.actionBtn} ${
+                        likedPosts[post.id] ? styles.activeAction : ""
+                      }`}
+                      onClick={() => toggleLike(post.id)}
+                    >
+                      <HeartIcon /> <span>like ({likeCounts[post.id] || 0})</span>
+                    </button>
+                    <button
+                      className={`${styles.footerItem} ${styles.actionBtn}`}
+                      onClick={() => toggleComments(post.id)}
+                    >
+                      <CommentsIcon />{" "}
+                      <span>comment ({(commentsByPost[post.id] || []).length})</span>
+                    </button>
                   </div>
+                  {openComments[post.id] ? (
+                    <div className={styles.commentBox}>
+                      <div className={styles.commentInputRow}>
+                        <input
+                          type="text"
+                          placeholder="Write a comment..."
+                          value={commentInputs[post.id] || ""}
+                          onChange={(e) =>
+                            setCommentInputs((prev) => ({
+                              ...prev,
+                              [post.id]: e.target.value,
+                            }))
+                          }
+                        />
+                        <button onClick={() => addComment(post.id)}>Send</button>
+                      </div>
+                      {(commentsByPost[post.id] || []).map((comment, index) => (
+                        <p key={`${post.id}-${index}`} className={styles.commentItem}>
+                          {comment}
+                        </p>
+                      ))}
+                    </div>
+                  ) : null}
                 </div>
               </Card>
             ))}
