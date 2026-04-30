@@ -100,6 +100,8 @@
   #popup-overlay textarea {
     height: 100px;
     margin-top: 6px;
+    resize: none;
+    min-height: 100px;
   }
   
   #popup-overlay .file-buttons {

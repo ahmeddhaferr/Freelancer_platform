@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 // import Container from "../../components/Container/container";
 import styles from "./DashboardScreen.module.css"
 import Container from "../../components/Container/container";
 import Card from "../../components/Card/card";
 import DonutChart from "../../components/charts/DonutChart";
-import CloseSliderIcon from "../../CustomIcons/CloseSliderIcon";
 
 const DashboardScreen = () => {
     const [filterType, setFilterType] = useState('All');
@@ -76,9 +75,19 @@ const DashboardScreen = () => {
         midRate: 12,
         lowRate: 6
     }
-    useEffect(() => {
+    const normalizedStatus = (status) => status.toLowerCase().replace(/\s+/g, "");
 
-    }, [filterType])
+    const filteredProjects = useMemo(() => {
+        if (filterType === "All") {
+            return projects;
+        }
+
+        const normalizedFilter = normalizedStatus(filterType);
+        return projects.filter(
+            (project) => normalizedStatus(project.projectStatus) === normalizedFilter
+        );
+    }, [filterType, projects]);
+
     return (
         
         <div className={styles.dashboardContainer}>
@@ -87,12 +96,12 @@ const DashboardScreen = () => {
                     <section className={styles.section1}>
                         <div className={styles.projectsHeader}>
                             <button onClick={() => setFilterType('All')} className={filterType === 'All' && styles.active}>All</button>
-                            <button onClick={() => setFilterType('Pending')}>Pending</button>
-                            <button onClick={() => setFilterType('In Progress')}>InProgress</button>
-                            <button onClick={() => setFilterType('Completed')}>Completed</button>
+                            <button onClick={() => setFilterType('Pending')} className={filterType === 'Pending' && styles.active}>Pending</button>
+                            <button onClick={() => setFilterType('InProgress')} className={filterType === 'InProgress' && styles.active}>InProgress</button>
+                            <button onClick={() => setFilterType('Completed')} className={filterType === 'Completed' && styles.active}>Completed</button>
                         </div>
                         <div className={styles.projects}>
-                            {projects.map((project) => (
+                            {filteredProjects.map((project) => (
                                 <Card key={project.id}>
                                     <div className={styles.projectInfo}>
                                         <div className={`${styles.projectData} ${project.projectStatus === 'completed'? styles.completed : project.projectStatus === 'Pending'? styles.pending: styles.inProgress}`}>

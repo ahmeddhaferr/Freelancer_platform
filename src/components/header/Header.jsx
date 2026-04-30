@@ -1,14 +1,17 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import styles from './Header.module.css';
 import { useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import SearchIcon from "../../CustomIcons/SearchIcon";
 import BellIcon from "../../CustomIcons/BellIcon";
 import Container from "../Container/container";
-const Header = () => {
+const Header = ({ isHomeSidebarOpen, setIsHomeSidebarOpen }) => {
     const [isOpenNotification, setIsOpenNotification] = useState(false)
     const [newNotification, setNewNotification] = useState(true)
+    const location = useLocation();
     const isMobile = useMediaQuery({ query: '(max-width: 880px)' })
+    const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1100px)' })
+    const showHomeSidebarButton = ["/", "/profile", "/dashboard"].includes(location.pathname) && isTabletOrMobile;
     const todayNotifications = [
         {
             img: './avatar.png',
@@ -52,6 +55,32 @@ const Header = () => {
 
     return (
         <div className={styles.header}>
+            {showHomeSidebarButton && isHomeSidebarOpen ? (
+                <div
+                    className={styles.sidebarOverlay}
+                    onClick={() => setIsHomeSidebarOpen(false)}
+                />
+            ) : null}
+            {showHomeSidebarButton ? (
+                <aside className={`${styles.mobileSidebar} ${isHomeSidebarOpen ? styles.open : ""}`}>
+                    <div className={styles.mobileSidebarHeader}>
+                        <b>Quick Access</b>
+                        <button
+                            className={styles.sidebarCloseBtn}
+                            onClick={() => setIsHomeSidebarOpen(false)}
+                            aria-label="Close sidebar"
+                        >
+                            x
+                        </button>
+                    </div>
+                    <nav className={styles.mobileSidebarNav}>
+                        <Link to="/" onClick={() => setIsHomeSidebarOpen(false)}>Home</Link>
+                        <Link to="/dashboard" onClick={() => setIsHomeSidebarOpen(false)}>Dashboard</Link>
+                        <Link to="/setting" onClick={() => setIsHomeSidebarOpen(false)}>Settings</Link>
+                        <Link to="/profile" onClick={() => setIsHomeSidebarOpen(false)}>Edit Profile</Link>
+                    </nav>
+                </aside>
+            ) : null}
             <Container>
                 <div className={styles.content}>
                     <NavLink to="/" className={styles.logo}>Freelancer platform</NavLink>
@@ -60,6 +89,17 @@ const Header = () => {
                         <NavLink to="/dashboard">Dashboard</NavLink>
                         <NavLink to="/setting">Settings</NavLink>
                     </nav>
+                    {showHomeSidebarButton ? (
+                        <button
+                            className={styles.sidebarToggleBtn}
+                            onClick={() => setIsHomeSidebarOpen(!isHomeSidebarOpen)}
+                            aria-label="Toggle sidebar"
+                        >
+                            <span className={styles.sidebarIconLine}></span>
+                            <span className={styles.sidebarIconLine}></span>
+                            <span className={styles.sidebarIconLine}></span>
+                        </button>
+                    ) : null}
                     {isMobile ? (""):(<div className={styles["nav-bar"]}>
                         <div className={styles.search}>
                             <SearchIcon />

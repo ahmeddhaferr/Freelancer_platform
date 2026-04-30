@@ -2,17 +2,21 @@
     background-color: #F8FBFC;
     padding: 16px;
     margin-bottom: 16px;
+    width: 100%;
+    overflow-x: hidden;
 }
 
 .dashboardContainer .content {
     display: grid;
     grid-template-columns: 60% 40%;
     gap: 16px;
+    width: 100%;
 }
 
 .dashboardContainer .section1 .projectsHeader{
     display: flex;
     gap: 8px;
+    flex-wrap: wrap;
 }
 .dashboardContainer .section1 .projectsHeader button{
     background-color: #EBEBEBA3;
@@ -39,6 +43,7 @@
     align-items: center;
     margin-top: 16px;
     gap: 16px;
+    width: 100%;
 }
 .projectInfo {
     display: flex;
@@ -98,6 +103,7 @@
     display: flex;
     align-items: center;
     gap: 16px;
+    width: 100%;
 }
 
 .totalDonutChart {
@@ -278,4 +284,71 @@
     font-family: 'Poppins', sans-serif;
     font-size: 12px;
     font-weight: 700;
+}
+
+@media (max-width: 1200px) {
+    .dashboardContainer .content {
+        grid-template-columns: 1fr;
+    }
+
+    .statisticsSection {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .totalDonutChart h2 {
+        text-align: center;
+    }
+}
+
+@media (max-width: 900px) {
+    .projects {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+
+    .statistics .card {
+        padding: 24px 14px;
+    }
+
+    .statistics .card p {
+        font-size: 16px;
+    }
+
+    .statistics .card b {
+        font-size: 28px;
+    }
+}
+
+@media (max-width: 600px) {
+    .dashboardContainer {
+        padding: 12px;
+    }
+
+    .dashboardContainer .section1 .projectsHeader button {
+        flex: 1 1 calc(50% - 8px);
+        padding: 10px 12px;
+    }
+
+    .projects {
+        grid-template-columns: 1fr;
+    }
+
+    .projectInfo {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .statistics {
+        grid-template-columns: 1fr;
+    }
+
+    .totalDonutChart h2 {
+        font-size: 20px;
+        min-width: 0;
+    }
+
+    .sliderOFprojectinfo .slider{
+        width: 100%;
+        border-radius: 0;
+    }
 }

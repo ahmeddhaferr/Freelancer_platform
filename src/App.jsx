@@ -8,6 +8,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import HomeScreen from './screens/HomeScreen/HomeScreen';
 import ProfileScreen from './screens/ProfileScreen/ProfileScreen';
 import Login from './screens/login/login';
+import SettingScreen from './screens/settingScreen/SettingScreen';
 
 function App() {
   
@@ -51,14 +52,14 @@ function App() {
             // </ProtectedRoute>
           ),
         },
-        // {
-        //   path: "/setting",
-        //   element: (
-        //     <ProtectedRoute isProtected={true}>
-        //       <Home />
-        //     </ProtectedRoute>
-        //   ),
-        // },
+        {
+          path: "/setting",
+          element: (
+            // <ProtectedRoute isProtected={true}>
+              <SettingScreen />
+            // </ProtectedRoute>
+          ),
+        },
       ],
     },
   ]);

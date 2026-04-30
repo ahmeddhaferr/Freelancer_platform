@@ -397,19 +397,161 @@
   text-decoration-skip-ink: none;
   margin-bottom: 24px;
 }
+
+.openSidebarBtn {
+  width: 100%;
+  border: none;
+  background-color: #3c97af;
+  color: #fff;
+  border-radius: 14px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.sidebarOverlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.35);
+  z-index: 99;
+}
+
+.mobileSidebar {
+  position: fixed;
+  top: 0;
+  right: -420px;
+  width: min(380px, 90vw);
+  height: 100vh;
+  background-color: #f8fbfc;
+  padding: 16px;
+  z-index: 100;
+  overflow-y: auto;
+  transition: right 0.3s ease;
+}
+
+.mobileSidebar.open {
+  right: 0;
+}
+
+.mobileSidebarHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.mobileSidebarTitle {
+  font-size: 24px;
+  font-weight: 700;
+  color: #0a0a0a;
+}
+
+.mobileSidebarNav {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.mobileSidebarNav a {
+  text-decoration: none;
+  color: #495057;
+  font-size: 15px;
+  font-weight: 600;
+  background-color: #ffffff;
+  border: 1px solid #e7eff2;
+  border-radius: 12px;
+  padding: 10px 12px;
+}
+
+.mobileSidebarNav a:hover {
+  color: #3c97af;
+  border-color: #b7dce6;
+}
+
+.sidebarCloseBtn {
+  width: 38px;
+  height: 38px;
+  border: none;
+  border-radius: 50%;
+  background-color: #3c97af;
+  color: #fff;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidebarUserInfo {
+  text-align: center;
+  border: 1px solid #ebf3f5;
+  border-radius: 16px;
+  padding: 20px 14px;
+  background-color: #ffffff;
+}
+
+.sidebarUserInfo img {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #e8f5f8;
+}
+
+.sidebarUserName {
+  font-size: 20px;
+  font-weight: 700;
+  margin-top: 12px;
+  color: #1f1f1f;
+}
+
+.sidebarRate {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 8px;
+  margin-bottom: 16px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background-color: #f2f8fa;
+}
+
+.sidebarRate span {
+  color: #667085;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.sidebarEditProfileBtn {
+  display: block;
+  text-decoration: none;
+  width: 100%;
+  border: none;
+  color: #fff;
+  border-radius: 12px;
+  background: linear-gradient(90deg, #3c97af 0%, #56adc4 100%);
+  padding: 12px;
+  font-size: 15px;
+  font-weight: 600;
+}
 @media (max-width: 900px) {
   .content {
 justify-content: center ;
 width: 100%;
-};
+}
 
 .content.section2 {
   width: 100%;
-};
+}
 .content.section1 {
   width: 0;
-};
+}
 .content.section3 {
   width: 0;
-};
+}
 }
