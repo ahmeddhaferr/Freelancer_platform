@@ -397,3 +397,19 @@
   text-decoration-skip-ink: none;
   margin-bottom: 24px;
 }
+@media (max-width: 900px) {
+  .content {
+justify-content: center ;
+width: 100%;
+};
+
+.content.section2 {
+  width: 100%;
+};
+.content.section1 {
+  width: 0;
+};
+.content.section3 {
+  width: 0;
+};
+}
