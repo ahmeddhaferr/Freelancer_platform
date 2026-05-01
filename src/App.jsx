@@ -1,17 +1,16 @@
-import { useState } from 'react'
-import Register from './screens/register/Register';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import UserInfo from './screens/userInfo/UserInfo';
-import DashboardScreen from './screens/dashboardScreen/DashboardScreen';
-import MainLayout from './layout/MainLayout';
-import ProtectedRoute from './components/ProtectedRoute';
-import HomeScreen from './screens/HomeScreen/HomeScreen';
-import ProfileScreen from './screens/ProfileScreen/ProfileScreen';
-import Login from './screens/login/login';
-import SettingScreen from './screens/settingScreen/SettingScreen';
+import { useState } from "react";
+import Register from "./screens/register/Register";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import UserInfo from "./screens/userInfo/UserInfo";
+import DashboardScreen from "./screens/dashboardScreen/DashboardScreen";
+import MainLayout from "./layout/MainLayout";
+import ProtectedRoute from "./components/ProtectedRoute";
+import HomeScreen from "./screens/HomeScreen/HomeScreen";
+import ProfileScreen from "./screens/ProfileScreen/ProfileScreen";
+import Login from "./screens/login/login";
+import SettingScreen from "./screens/settingScreen/SettingScreen";
 
 function App() {
-  
   const router = createBrowserRouter([
     {
       path: "/register",
@@ -23,7 +22,7 @@ function App() {
     },
     {
       path: "/Login",
-      element: <Login />
+      element: <Login />,
     },
     {
       element: <MainLayout />,
@@ -32,7 +31,7 @@ function App() {
           path: "/",
           element: (
             // <ProtectedRoute isProtected={true}>
-              <HomeScreen />
+            <HomeScreen />
             // </ProtectedRoute>
           ),
         },
@@ -40,7 +39,7 @@ function App() {
           path: "/profile",
           element: (
             // <ProtectedRoute isProtected={true}>
-              <ProfileScreen />
+            <ProfileScreen />
             // </ProtectedRoute>
           ),
         },
@@ -48,7 +47,7 @@ function App() {
           path: "/dashboard",
           element: (
             // <ProtectedRoute isProtected={true}>
-              <DashboardScreen />
+            <DashboardScreen />
             // </ProtectedRoute>
           ),
         },
@@ -56,7 +55,7 @@ function App() {
           path: "/setting",
           element: (
             // <ProtectedRoute isProtected={true}>
-              <SettingScreen />
+            <SettingScreen />
             // </ProtectedRoute>
           ),
         },
@@ -67,7 +66,7 @@ function App() {
     <>
       <RouterProvider router={router} />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
