@@ -1,5 +1,6 @@
-import * as React from "react"
-const BellIcon = (props) => (
+import * as React from "react";
+
+const BellIcon = ({ active, ...props }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={25}
@@ -9,7 +10,7 @@ const BellIcon = (props) => (
   >
     <path
       stroke="#9C9C9C"
-      fill={props.active? "#21868E" :''}
+      fill={active ? "#21868E" : ""}
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={1.5}
@@ -23,5 +24,6 @@ const BellIcon = (props) => (
       d="M8.5 19c.458 1.725 2.075 3 4 3 1.925 0 3.541-1.275 4-3"
     />
   </svg>
-)
-export default BellIcon
+);
+
+export default BellIcon;
